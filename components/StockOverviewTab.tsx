@@ -4,7 +4,8 @@ import { useState, useEffect, useMemo, useCallback } from 'react'
 interface VariantMeta { id: number; sku: string }
 interface Model { id: number; name: string; description: string; supplier?: { name: string }; variants: VariantMeta[] }
 interface StockEntry { quantity: number; available_quantity: number; reserved_quantity: number; committed_quantity: number; warehouse: { id: number; name: string } }
-interface VariantStock { id: number; sku: string; stocks: StockEntry[]; last_updated?: string }
+interface StockingUnit { id: number; name: string }
+interface VariantStock { id: number; sku: string; stocks: StockEntry[]; last_updated?: string; stocking_unit?: StockingUnit | null }
 
 function StockBadge({ available }: { available: number }) {
   if (available === 0) return <span className="inline-block px-2 py-0.5 rounded text-xs font-bold bg-red-500/20 text-red-400 border border-red-500/30">● Out</span>
@@ -108,6 +109,7 @@ export default function StockOverviewTab() {
               <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wide w-8" style={{ color: 'var(--muted)' }}></th>
               <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wide" style={{ color: 'var(--muted)' }}>Product Name</th>
               <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wide" style={{ color: 'var(--muted)' }}>SKU</th>
+              <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wide" style={{ color: 'var(--muted)' }}>Unit</th>
               <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wide" style={{ color: 'var(--muted)' }}>Warehouse</th>
               <th className="text-right px-4 py-3 text-xs font-semibold uppercase tracking-wide text-green-400">Available</th>
               <th className="text-right px-4 py-3 text-xs font-semibold uppercase tracking-wide text-yellow-400">Reserved</th>
@@ -145,6 +147,9 @@ export default function StockOverviewTab() {
                   </td>
                   <td className="px-4 py-3 font-medium text-white">{model.name}</td>
                   <td className="px-4 py-3 font-mono text-xs" style={{ color: 'var(--muted)' }}>{firstVariant?.sku || '—'}</td>
+                  <td className="px-4 py-3 text-xs" style={{ color: 'var(--muted)' }}>
+                    {stocks.length > 0 && variantStock[model.variants[0]?.id]?.stocking_unit?.name || '—'}
+                  </td>
                   <td className="px-4 py-3 text-xs" style={{ color: 'var(--muted)' }}>{hasStock ? (warehouses || '—') : '—'}</td>
                   <td className="px-4 py-3 text-right font-mono text-green-400">{hasStock ? totalAvail : '—'}</td>
                   <td className="px-4 py-3 text-right font-mono text-yellow-400">{hasStock ? totalReserved : '—'}</td>
@@ -157,6 +162,7 @@ export default function StockOverviewTab() {
                       <td></td>
                       <td className="px-4 py-2 text-xs pl-8" style={{ color: 'var(--muted)' }}>↳ {variant.sku}</td>
                       <td className="px-4 py-2 text-xs font-mono" style={{ color: 'var(--muted)' }}>{variant.sku}</td>
+                      <td className="px-4 py-2 text-xs" style={{ color: 'var(--muted)' }}>{variant.stocking_unit?.name || '—'}</td>
                       <td className="px-4 py-2 text-xs" style={{ color: 'var(--text)' }}>{st.warehouse.name}</td>
                       <td className="px-4 py-2 text-right text-xs font-mono text-green-400">{st.available_quantity}</td>
                       <td className="px-4 py-2 text-right text-xs font-mono text-yellow-400">{st.reserved_quantity}</td>
