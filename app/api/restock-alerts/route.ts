@@ -25,12 +25,11 @@ export async function GET() {
           SELECT SUM(psh.quantity)
           FROM product_stock_history psh
           JOIN product p2 ON p2.id = psh.product_id
-          LEFT JOIN stock_location sl2 ON sl2.id = psh.stock_location_id
           WHERE p2.model_id = pm.id
             AND psh.timestamp >= DATE_SUB(NOW(), INTERVAL 28 DAY)
             AND (
               (psh.activity_type = 'increase' AND psh.movement = 'plus')
-              OR (psh.activity_type = 'transfer' AND psh.movement = 'plus' AND sl2.type IN ('main','satellite'))
+              OR (psh.activity_type = 'transfer' AND psh.movement = 'plus')
             )
         ), 0) AS restock_4wk
       FROM product_model pm

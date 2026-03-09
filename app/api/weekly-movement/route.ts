@@ -17,13 +17,12 @@ export async function GET() {
         END) AS consumption,
         SUM(CASE
           WHEN (psh.activity_type = 'increase' AND psh.movement = 'plus')
-            OR (psh.activity_type = 'transfer' AND psh.movement = 'plus' AND sl.type IN ('main','satellite'))
+            OR (psh.activity_type = 'transfer' AND psh.movement = 'plus')
           THEN psh.quantity ELSE 0
         END) AS restock
       FROM product_stock_history psh
       JOIN product p ON p.id = psh.product_id
       JOIN product_model pm ON pm.id = p.model_id
-      LEFT JOIN stock_location sl ON sl.id = psh.stock_location_id
       WHERE psh.timestamp >= DATE_SUB(NOW(), INTERVAL 56 DAY)
         AND pm.hidden = 0
       GROUP BY pm.id, pm.name, YEARWEEK(psh.timestamp, 1)
