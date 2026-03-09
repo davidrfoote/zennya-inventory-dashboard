@@ -25,12 +25,12 @@ export async function GET() {
       ) psh_last ON psh_last.product_id = p.id
       WHERE pm.hidden = 0
         AND sl.type IN ('main', 'satellite')
-        AND pm.id NOT IN (
-          SELECT DISTINCT p2.model_id
-          FROM product p2
-          JOIN product_stock_history psh2 ON psh2.product_id = p2.id
-          WHERE psh2.timestamp >= DATE_SUB(NOW(), INTERVAL 90 DAY)
-          LIMIT 10000
+        AND NOT EXISTS (
+          SELECT 1
+          FROM product_stock_history psh2
+          JOIN product p2 ON p2.id = psh2.product_id
+          WHERE p2.model_id = pm.id
+            AND psh2.timestamp >= DATE_SUB(NOW(), INTERVAL 90 DAY)
         )
       GROUP BY pm.id, pm.name, pm.product_type
       HAVING total_stock > 0
