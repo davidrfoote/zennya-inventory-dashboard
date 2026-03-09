@@ -1,13 +1,11 @@
 'use client'
 import { useState } from 'react'
 import StockOverviewTab from '@/components/StockOverviewTab'
-import WeeklyMovementTab from '@/components/WeeklyMovementTab'
 import RestockAlertsTab from '@/components/RestockAlertsTab'
 import DeadStockTab from '@/components/DeadStockTab'
 
 const TABS = [
   { id: 'overview', label: '📊 Stock Overview' },
-  { id: 'movement', label: '📈 Weekly Movement' },
   { id: 'alerts', label: '🚨 Restock Alerts' },
   { id: 'deadstock', label: '🗄️ Dead Stock' },
 ]
@@ -29,12 +27,11 @@ export default function Home() {
               borderBottom: active === tab.id ? '2px solid var(--accent)' : '2px solid transparent',
             }}
           >
-            {tab.label}
+            {tab.id === 'alerts' ? '🚨 Restock Alerts' : tab.label}
           </button>
         ))}
       </div>
       {active === 'overview' && <StockOverviewTab />}
-      {active === 'movement' && <WeeklyMovementTab />}
       {active === 'alerts' && <RestockAlertsTab />}
       {active === 'deadstock' && <DeadStockTab />}
     </div>

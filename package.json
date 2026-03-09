@@ -1,6 +1,6 @@
 {
   "name": "zennya-inventory-dashboard",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001",
@@ -11,9 +11,7 @@
   "dependencies": {
     "next": "14.2.3",
     "react": "^18",
-    "react-dom": "^18",
-    "recharts": "^2.12.2",
-    "mysql2": "^3.9.7"
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@types/node": "^20",

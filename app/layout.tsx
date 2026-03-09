@@ -3,23 +3,27 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Zennya Inventory Dashboard',
-  description: 'Stock movement and inventory analytics',
+  description: 'Real-time inventory stock monitoring',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
-      <body className="min-h-screen" style={{ background: 'var(--bg)', color: 'var(--text)' }}>
-        <header className="border-b px-6 py-4" style={{ borderColor: 'var(--border)', background: 'var(--card)' }}>
-          <div className="flex items-center gap-3">
-            <span className="text-2xl">📦</span>
-            <div>
-              <h1 className="text-lg font-bold text-white">Zennya Inventory Dashboard</h1>
-              <p className="text-xs" style={{ color: 'var(--muted)' }}>Stock Movement Analytics · remedy DB</p>
+    <html lang="en">
+      <body>
+        <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
+          <header style={{ background: 'var(--card)', borderBottom: '1px solid var(--border)', padding: '16px 24px' }}>
+            <div style={{ maxWidth: 1400, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 12 }}>
+              <span style={{ fontSize: 24 }}>📦</span>
+              <div>
+                <h1 style={{ fontSize: 20, fontWeight: 700, color: 'white', margin: 0 }}>Zennya Inventory Dashboard</h1>
+                <p style={{ fontSize: 12, color: 'var(--muted)', margin: 0 }}>Real-time stock monitoring via Inventory API</p>
+              </div>
             </div>
-          </div>
-        </header>
-        <main className="p-6">{children}</main>
+          </header>
+          <main style={{ maxWidth: 1400, margin: '0 auto', padding: '24px' }}>
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   )
